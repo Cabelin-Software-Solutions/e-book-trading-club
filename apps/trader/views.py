@@ -182,7 +182,7 @@ def item_delete_view(request):
 
 @login_required
 def market_view(request):
-    items = Item.objects.all().exclude(owner=request.user.id)
+    items = Item.objects.all().exclude(owner=request.user.id).exclude(name="No item in trade")
     return render(request, 'market.html', {
         'items': items
     })
@@ -305,12 +305,14 @@ def trade_accept_view(request, trade_id):
         if proposal.status != 'Cancelled':
             if proposal.is_finalized:
                 rec_item = proposal.receiver_item
+                rec_item.in_sender_trade = False
                 rec_item.owner = proposal.sender
                 rec_item.save()
                 rec_item.item_receive_proposals.clear()
                 rec_item.item_send_proposals.clear()
 
                 sen_item = proposal.sender_item
+                sen_item.in_sender_trade = False
                 sen_item.owner = proposal.receiver
                 sen_item.save()
                 sen_item.item_receive_proposals.clear()
