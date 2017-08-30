@@ -14,9 +14,13 @@
       <fieldset>
           <legend>Sender</legend>
           <p><strong>Sender:</strong> {{ proposal.sender.first_name}} {{ proposal.sender.last_name}} is proposing to trade the item:</p>
-          <p>{{ proposal.sender_item.name }}</p>
-          <img src="{{ proposal.sender_item.image }}" alt="{{ proposal.sender_item.name }}" class="img-responsive gallery_thumbnail">
-          <p>{{ proposal.sender_item.description }}</p>
+          {% if proposal.sender_item.name == 'No item in trade' %}
+            <p class="lead">( Please select your item to trade )</p>
+          {% else %}
+            <p>{{ proposal.sender_item.name }}</p>
+            <img src="{{ proposal.sender_item.image }}" alt="{{ proposal.sender_item.name }}" class="img-responsive gallery_thumbnail">
+            <p>{{ proposal.sender_item.description }}</p>
+          {% endif %}
       </fieldset>
       {% if proposal.sender.id == user.id %}
           <a class="btn btn-primary" data-toggle="modal" data-target="#myModal" href="/items/trade/edit">Edit Trade</a>
