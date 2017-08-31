@@ -51,7 +51,7 @@ def login_view(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponseRedirect('/')
+                    return HttpResponseRedirect('/?message=Logged in successfully')
                 else:
                     return HttpResponseRedirect('/?error=Account has been disabled')
             else:
@@ -64,7 +64,7 @@ def login_view(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('/?message=Logged out successfully')
 
 @login_required
 def profile_view(request):
@@ -180,9 +180,11 @@ def item_delete_view(request):
     else:
         return HttpResponseRedirect('/')
 
-@login_required
 def market_view(request):
-    items = Item.objects.all().exclude(owner=request.user.id).exclude(name="No item in trade")
+    if request.user:
+        items = Item.objects.all().exclude(owner=request.user.id).exclude(name="No item in trade")
+    else:
+        items = Item.objects.all()
     return render(request, 'market.html', {
         'items': items
     })
