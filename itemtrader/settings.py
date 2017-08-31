@@ -123,3 +123,8 @@ STATIC_URL = '/static/'
 # URL for redirect if not logged in
 
 LOGIN_URL = '/login'
+
+# URL for media uploads
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MAX_UPLOAD_SIZE = '10485760'

@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
+from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
@@ -11,6 +12,8 @@ from .models import Item, Proposal, Log
 from django.db.models import Q
 from .forms import LoginForm, RegisterForm, ItemForm, DeleteItemForm, EditItemForm, EditUserForm, ChangePasswordForm, AlertForm
 from django.contrib.auth.models import User
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 
 # Create your views here.
@@ -117,16 +120,29 @@ def password_edit_view(request):
 
 @login_required
 def my_items_view(request):
-    if request.method == 'POST':
-        form = ItemForm(request.POST)
+    if request.method == 'POST' and request.FILES['upload']:
+        # save
+        form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
-            item = Item(name=form.cleaned_data['name'],
-                description=form.cleaned_data['description'],
-                image=form.cleaned_data['image'],
-                owner=request.user,
-                in_sender_trade=False)
-            item.save()
-            return HttpResponseRedirect('/my_items')
+            myfile = request.FILES['upload']
+            if myfile._size > settings.MAX_UPLOAD_SIZE:
+                return HttpResponseRedirect('/my_items?error=Sorry, Maximum File Size is 10 MB')
+            try:
+                fs = FileSystemStorage()
+                filename = fs.save(myfile.name, myfile)
+                uploaded_file_url = fs.url(filename)
+                item = Item(name=form.cleaned_data['name'],
+                    description=form.cleaned_data['description'],
+                    image=form.cleaned_data['image'],
+                    owner=request.user,
+                    upload=uploaded_file_url,
+                    in_sender_trade=False)
+                item.save()
+                return HttpResponseRedirect('/my_items')
+            except:
+                return HttpResponseRedirect('/my_items?error=Unable to save item')
+        else:
+            return HttpResponseRedirect('/my_items?error=Unable to create item')
     else:
         items = Item.objects.filter(owner=request.user).order_by('-updated_at')
         item_form = ItemForm()

@@ -11,6 +11,7 @@ class Item(models.Model):
     image = models.CharField(max_length=255)
     owner = models.ForeignKey(User, related_name="owned_items",null=True)
     in_sender_trade = models.BooleanField()
+    upload = models.FileField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now    =True)
 
