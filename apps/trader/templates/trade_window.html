@@ -13,7 +13,7 @@
     <div class="col-md-6">
       <fieldset>
           <legend>Sender</legend>
-          <p><strong>Sender:</strong> {{ proposal.sender.first_name}} {{ proposal.sender.last_name}} is proposing to trade the item:</p>
+          <p class="light"><strong>Sender:</strong> {{ proposal.sender.first_name}} {{ proposal.sender.last_name}} is proposing to trade the item:</p>
           {% if proposal.sender_item.name == 'No item in trade' %}
             <p class="lead">( Please select your item to trade )</p>
           {% else %}
@@ -60,21 +60,24 @@
                   </div>
               </div>
               <!--End Modal-->
-
-          <form action="/item/trade/{{proposal.id}}/finalize" method="post" class="form-btn">
-              {% csrf_token %}
-              <input type="submit" value="Finalize Trade Request" class="btn btn-success"/>
-          </form>
+          {% if not proposal.sender_item.name == 'No item in trade' %}
+            {% if not proposal.status == 'Finalized'%}
+              <form action="/item/trade/{{proposal.id}}/finalize" method="post" class="form-btn">
+                  {% csrf_token %}
+                  <input type="submit" value="Finalize Trade Request" class="btn btn-success"/>
+              </form>
+            {% endif %}
           <form action="/item/trade/{{proposal.id}}/cancel" method="post" class="form-btn">
               {% csrf_token %}
               <input type="submit" value="Cancel Trade Request" class="btn btn-danger"/>
           </form>
+          {% endif %}
       {% endif %}
     </div>
     <div class="col-md-6">
       <fieldset>
           <legend>Receiver</legend>
-          <p><strong>Recipient:</strong> {{ proposal.receiver.first_name}} {{ proposal.receiver.last_name}} is being requested to trade the item:</p>
+          <p class="light"><strong>Recipient:</strong> {{ proposal.receiver.first_name}} {{ proposal.receiver.last_name}} is being requested to trade the item:</p>
           <p>{{ proposal.receiver_item.name }}</p>
           <img src="{{ proposal.receiver_item.image }}" alt="{{ proposal.receiver_item.name }}" class="img-responsive gallery_thumbnail">
           <p>{{ proposal.receiver_item.description }}</p>

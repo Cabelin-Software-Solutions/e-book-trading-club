@@ -30,6 +30,17 @@ $(function() {
     console.log('edit ' + item_id);
   });
 
+  function updateImage() {
+    var img_url = $('input[name="image"]').val();
+    $('#preview').html('<img src="' + img_url + '" class="img-responsive gallery_thumbnail">');
+  }
+
+  updateImage();
+
+  $('#preview-btn').click(function() {
+    updateImage();
+  });
+
   // delete button
   $('.btn-danger').click(function() {
 

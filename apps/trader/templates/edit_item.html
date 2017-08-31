@@ -8,7 +8,7 @@
         <h1 class="text-center">Edit</h1>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
       <form action="." method="POST" id="add-form">
         {% csrf_token %}
         {% for field in item_form %}
@@ -21,7 +21,9 @@
           </div>
         {% endfor %}
         <div class="form-group fieldWrapper">
-          <button class="btn btn-default">Add</button>
+          <button type="submit" class="btn btn-default">SAVE</button>
+          <a href="/my_items" class="btn btn-default">CANCEL</a>
+          <div class="btn btn-default" id="preview-btn">Update Image Preview</div>
         </div>
       </form>
 
@@ -29,6 +31,9 @@
         {% csrf_token %}
         <input type="hidden" name="delete_id">
       </form>
+    </div>
+    <div class="col-md-6">
+      <div id="preview"></div>
     </div>
   </div>
 </div>

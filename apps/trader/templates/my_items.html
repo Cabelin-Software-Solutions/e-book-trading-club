@@ -5,12 +5,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-        <h1 class="text-center">My Items</h1>
-        <p class="lead text-center">This is where you can show, add, edit and delete your owned items and pending trades.</p>
+        <h1 class="text-center">My e-books</h1>
+        <p class="small light text-center">This is where you can show, add, edit and delete your owned items.</p>
     </div>
 
     <div class="col-md-4">
-      <form action="." method="POST" id="add-form">
+      <form action="." method="POST" id="add-form" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in item_form %}
           <div class="fieldWrapper">
@@ -22,7 +22,7 @@
           </div>
         {% endfor %}
         <div class="form-group fieldWrapper">
-          <button class="btn btn-default">Add</button>
+          <button class="btn btn-default btn-lg">Add e-book</button>
         </div>
       </form>
 
@@ -34,7 +34,11 @@
     <div class="col-md-8 overflow">
         <div class="list-group">
           {% for item in items %}
-            <div class="list-group-item clearfix" data-id="{{ item.id }}">{{ item.name }}<img src="{{ item.image }}" class="img-responsive gallery_thumbnail center-block"><span class="btn btn-danger btn-xs pull-right" data-id="{{ item.id }}"><i class="fa fa-trash"></i></span><a class="btn btn-primary btn-xs pull-right" href="/item/edit/?id={{ item.id }}"><i class="fa fa-pencil"></i></a></div>
+            <div class="list-group-item clearfix text-center" data-id="{{ item.id }}">{{ item.name }} -
+              <a href="{{ item.upload }}">download</a><hr><img src="{{ item.image }}" class="img-responsive gallery_thumbnail center-block"><span class="light">{{ item.description }}</span>
+              <span class="btn btn-danger btn-xs pull-right" data-id="{{ item.id }}"><i class="fa fa-trash"></i></span>
+              <a class="btn btn-primary btn-xs pull-right" href="/item/edit/?id={{ item.id }}"><i class="fa fa-pencil"></i></a>
+            </div>
           {% endfor %}
         </div>
     </div>

@@ -1,3 +1,64 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizelegibility;
+}
+
+.landing-page {
+  background: linear-gradient(
+      rgba(0,0,0,0.5),
+      rgba(0,0,0,0.5)
+    ), url('https://res.cloudinary.com/dd6kwd0zn/image/upload/v1504164424/aliis-sinisalu-70432_2_zefiev.jpg') fixed center center;
+  background-size: cover;
+  color: white;
+}
+
+.other-pages {
+  background: #fcfcfc;
+}
+
+h1,h2,h3,.navbar-brand {
+  font-family: 'Lora', serif;
+  letter-spacing: -1px;
+}
+
+input {
+  border-radius: 0;
+}
+
+.jumbotron {
+  background-color: rgba(0,0,0,0);
+}
+
+.light, .help {
+  font-weight: lighter;
+}
+
+.navbar-default {
+  padding: 20px;
+  color: #e5dddd;
+  border: 0;
+  background-color: white;
+}
+
+.navbar li a {
+  letter-spacing: 1px;
+}
+
+.navbar-default .navbar-toggle,
+.navbar-default .navbar-toggle:hover {
+  border: 0;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+  background-color: rgba(0,0,0,0);
+}
+
+.btn-success {
+  background-color: #3c7a3c;
+  border: 0;
+}
+
 .fieldWrapper {
   margin: 10px;
 }
@@ -12,11 +73,25 @@
 
 div.alert {
   position: fixed;
-  top: 0;
+  bottom: 0;
   width: 100%;
   margin: 0;
+  padding: 20px;
   display: none;
   z-index: 999;
+}
+
+.list-group-item {
+  background-color: #ededed;
+  margin-bottom: 10px;
+  border: 0;
+  -webkit-box-shadow: 0px 10px 17px -9px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 10px 17px -9px rgba(0,0,0,0.75);
+  box-shadow: 0px 10px 17px -9px rgba(0,0,0,0.75);
+}
+
+.btn {
+  border-radius: 0;
 }
 
 .btn-xs {
